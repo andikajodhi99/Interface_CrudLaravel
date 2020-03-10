@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table class="table" id="jurusantbl">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Jurusan</th>
+                <th scope="col">Create at</th>
+                <th scope="col">Update at</th>
+                <th scope="col">Action</th>
+                <th scope="col"><button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#exampleModal">
+                        Tambah Data
+                    </button></th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <!-- Modal Tambah Data-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Jurusan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-jurusan">
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Nama Jurusan</label>
+                            <input type="text" class="form-control" id="exampleInputJurusan1"
+                                aria-describedby="emailHelp" name="jurusan">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="create()">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Data-->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Jurusan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-jurusan-edit">
+                        <div class="form-group">
+                            <input type="hidden" name="id" id="id">
+                            <div class="form-group">
+                                <label for="exampleInputJurusan1">Nama Jurusan</label>
+                                <input type="text" class="form-control" aria-describedby="emailHelp" name="jurusan"
+                                    id="jurusan">
+                            </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"
+                        onclick="edit(document.getElementById('id').value)">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            index()
+        });
+        var id;
+        var jurusan;
+
+        function index() {
+            $.ajax({
+                type: 'GET',
+                url: "http://127.0.0.1:8000/api/jurusans/",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        $("#jurusantbl tbody").append(
+                            '<tr>' +
+                            '<td>' + item.id + '</td>' +
+                            '<td>' + item.jurusan + '</td>' +
+                            '<td>' + item.created_at + '</td>' +
+                            '<td>' + item.updated_at + '</td>' +
+                            '<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" onclick="getData(' +
+                            item.id + ',' + '`' + item.jurusan + '`' +
+                            ')">Edit</button> ' +
+                            '<button type="button" class="btn btn-danger" onclick="hapus(' +
+                            item.id + ')">Hapus</button></td>' +
+                            '</tr>'
+                        )
+                    })
+                    console.log(data)
+                }
+            });
+        }
+
+        function create() {
+            var data = $('.form-jurusan').serialize()
+            $.ajax({
+                type: 'POST',
+                url: "http://127.0.0.1:8000/api/jurusans/",
+                data: data,
+                success: function (data) {
+                    location.reload(true);
+                }
+            });
+        }
+
+        function getData(getId, getJur) {
+            document.getElementById("id").value = getId
+            document.getElementById("jurusan").value = getJur
+        }
+
+        function edit(id) {
+            var data = $('.form-jurusan-edit').serialize()
+            $.ajax({
+                type: 'POST',
+                url: "http://127.0.0.1:8000/api/jurusans/" + id,
+                data: data,
+                success: function (data) {
+                    location.reload(true);
+                }
+            });
+        }
+
+        function hapus(id) {
+            $.ajax({
+                type: 'GET',
+                url: "http://127.0.0.1:8000/api/jurusans/" + id,
+                success: function (data) {
+                    location.reload(true);
+                    console.log(data)
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

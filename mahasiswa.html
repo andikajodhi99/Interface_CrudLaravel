@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table class="table" id="mahasiswab1">
+        <thead>
+            <tr>
+                <th scope="col">nim</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Alamat</th>
+                <th scope="col">Tanggal_lahir</th>
+                <th scope="col">Agama</th>
+                <th scope="col">Jenis_kelamin</th>
+                <th scope="col">Jurusan_id</th>
+                <th scope="col">Create at</th>
+                <th scope="col">Update at</th>
+                <th scope="col">Action</th>
+                <th scope="col"><button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#exampleModal" onclick="getJurusan()">
+                        Tambah Data
+                    </button></th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <!-- Modal Tambah Data-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Jurusan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-mahasiswa">
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Nim</label>
+                            <input type="text" class="form-control" id="exampleInputJurusan1"
+                                aria-describedby="emailHelp" name="nim">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Nama Mahasiswa</label>
+                            <input type="text" class="form-control" id="exampleInputJurusan1"
+                                aria-describedby="emailHelp" name="nama">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Alamat</label>
+                            <input type="text" class="form-control" id="exampleInputJurusan1"
+                                aria-describedby="emailHelp" name="alamat">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Tanggal Lahir</label>
+                            <input type="date" class="form-control" id="exampleInputJurusan1"
+                                aria-describedby="emailHelp" name="tanggal_lahir">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Agama</label>
+                            <input type="text" class="form-control" id="exampleInputJurusan1"
+                                aria-describedby="emailHelp" name="agama">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Jenis Kelamin</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="jenis_kelamin">
+                                <option value="L">Laki</option>
+                                <option value="P">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Jurusan</label>
+                            <select class="form-control" id="jurusan" name="jurusan_id">
+
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="create()">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Data-->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Jurusan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-mahasiswa-edit">
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Nim</label>
+                            <input type="text" class="form-control" id="nim" aria-describedby="emailHelp" name="nim">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Nama Mahasiswa</label>
+                            <input type="text" class="form-control" id="nama" aria-describedby="emailHelp" name="nama">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Alamat</label>
+                            <input type="text" class="form-control" id="alamat" aria-describedby="emailHelp"
+                                name="alamat">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Tanggal Lahir</label>
+                            <input type="date" class="form-control" id="tanggal_lahir" aria-describedby="emailHelp"
+                                name="tanggal_lahir">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputJurusan1">Agama</label>
+                            <input type="text" class="form-control" id="agama" aria-describedby="emailHelp"
+                                name="agama">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Jenis Kelamin</label>
+                            <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
+                                <option value="L">Laki</option>
+                                <option value="P">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Jurusan</label>
+                            <select class="form-control" id="jurusan2" name="jurusan_id">
+
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"
+                        onclick="edit(document.getElementById('nim').value)">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            index()
+        });
+        var nim;
+        var mahasiswa;
+
+        function index() {
+            $.ajax({
+                type: 'GET',
+                url: "http://127.0.0.1:8000/api/mahasiswas/",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        $("#mahasiswab1 tbody").append(
+                            '<tr>' +
+                            '<td>' + item.nim + '</td>' +
+                            '<td>' + item.nama + '</td>' +
+                            '<td>' + item.alamat + '</td>' +
+                            '<td>' + item.tanggal_lahir + '</td>' +
+                            '<td>' + item.agama + '</td>' +
+                            '<td>' + item.jenis_kelamin + '</td>' +
+                            '<td>' + item.jurusan + '</td>' +
+                            '<td>' + item.created_at + '</td>' +
+                            '<td>' + item.updated_at + '</td>' +
+                            '<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" onclick="getData(' +
+                            item.nim + ',`' + item.nama + '`,`' + item.alamat + '`,`' + item
+                            .tanggal_lahir + '`,`' + item.agama + '`)">Edit</button> ' +
+                            '<button type="button" class="btn btn-danger" onclick="hapus(' +
+                            item.nim + ')">Hapus</button></td>' +
+                            '</tr>'
+                        )
+                    })
+                    console.log(data)
+                }
+            });
+        }
+
+        function create() {
+            var data = $('.form-mahasiswa').serialize()
+            console.log(data)
+            $.ajax({
+                type: 'POST',
+                url: "http://127.0.0.1:8000/api/mahasiswas/",
+                data: data,
+                success: function (data) {
+                    location.reload(true);
+                }
+            });
+        }
+
+        function getJurusan() {
+            $.ajax({
+                type: 'GET',
+                url: "http://127.0.0.1:8000/api/jurusans/",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        $("#jurusan").append(
+                            '<option value="' + item.id + '">' + item.jurusan +
+                            '</option>'
+                        )
+                    })
+                    console.log(data)
+                }
+            });
+        }
+
+        function getData(getNim, getNama, getAlamat, getTanggal_lahir, getAgama) {
+            $.ajax({
+                type: 'GET',
+                url: "http://127.0.0.1:8000/api/jurusans/",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        $("#jurusan2").append(
+                            '<option value="' + item.id + '">' + item.jurusan +
+                            '</option>'
+                        )
+                    })
+                    console.log(data)
+                }
+            });
+            document.getElementById("nim").value = getNim
+            document.getElementById("nama").value = getNama
+            document.getElementById("alamat").value = getAlamat
+            document.getElementById("tanggal_lahir").value = getTanggal_lahir
+            document.getElementById("agama").value = getAgama
+        }
+
+        function edit(nim) {
+            var data = $('.form-mahasiswa-edit').serialize()
+            console.log(data)
+            $.ajax({
+                type: 'POST',
+                url: "http://127.0.0.1:8000/api/mahasiswas/" + nim,
+                data: data,
+                success: function (data) {
+                    location.reload(true);
+                }
+            });
+        }
+
+        function hapus(nim) {
+            $.ajax({
+                type: 'GET',
+                url: "http://127.0.0.1:8000/api/mahasiswas/" + nim,
+                success: function (data) {
+                    location.reload(true);
+                    console.log(data)
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
